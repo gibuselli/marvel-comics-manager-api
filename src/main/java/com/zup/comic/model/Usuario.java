@@ -45,7 +45,7 @@ public class Usuario {
 	@JsonFormat(pattern="dd-MM-yyyy")
 	private LocalDate dataNascimento;
 	
-	@OneToMany(cascade=CascadeType.PERSIST)
+	@OneToMany(cascade=CascadeType.REMOVE)
 	private List<Comic> comics = new ArrayList<>();
 	
 	

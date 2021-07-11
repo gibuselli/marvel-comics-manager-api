@@ -7,10 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ComicCreators {
 
-	int available;
-	
-	String collectionURI;
-	
+	int available;	
+	String collectionURI;	
 	List<Items> items;
 
 	public ComicCreators(int available, String collectionURI, List<Items> items) {

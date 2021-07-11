@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Size;
 
 
 @Entity
@@ -21,7 +21,7 @@ public class Comic {
 
 	private String titulo;
 
-	@Size(max = 1000)
+	@Column(length = 1000)
 	private String descricao;
 
 	private BigDecimal preco;
@@ -33,7 +33,7 @@ public class Comic {
 	
 	private DiaDoDesconto diaDoDesconto;
 	
-	private boolean descontoAtivo;
+	private boolean descontoAtivo;	
 
 	public Comic(String titulo, String descricao, BigDecimal preco, String isbn) {
 		this.titulo = titulo;

@@ -10,6 +10,7 @@ public class ComicPrice {
 	String type;
 	BigDecimal price;	
 	
+	
 	public ComicPrice(String type, BigDecimal price) {
 		this.type = type;
 		this.price = price;

@@ -11,14 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zup.comic.client.ComicDTO;
 import com.zup.comic.client.MarvelEndpoint;
 
+/*
+ *  controller apenas com a finalidade de acessar uma lista de comics pela API da Marvel
+ *  para auxiliar na construção da aplicação
+ */
+
 @RestController
 @RequestMapping("/comics")
-public class ComicController {
+public class ComicController {	
 
 	@Autowired
 	private MarvelEndpoint endpoint;
-	
-
 	
 	@GetMapping
 	public ResponseEntity<?> listarComicsDisponiveis() {
@@ -31,6 +34,4 @@ public class ComicController {
 		ComicDTO comic = endpoint.buscaComicPorId(id);
         return comic != null ? ResponseEntity.ok(comic) : ResponseEntity.notFound().build(); 
     }	
-
-
 }

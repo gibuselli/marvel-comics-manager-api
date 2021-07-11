@@ -10,10 +10,8 @@ public class Result {
 	Long id;
 	String title;
 	String description;
-	String isbn;
-	
-	List<ComicPrice> prices;
-	
+	String isbn;	
+	List<ComicPrice> prices;	
 	ComicCreators creators;
 
 	public Result(Long id, String title, String description, String isbn, List<ComicPrice> prices,

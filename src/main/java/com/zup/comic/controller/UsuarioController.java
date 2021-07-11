@@ -23,46 +23,35 @@ import com.zup.comic.service.UsuarioService;
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
-	
+
 	@Autowired
 	private UsuarioService usuarioService;
-	
-	@Autowired ComicService comicService;
-	
-	@GetMapping
-	public ResponseEntity<?> listarUsuarios(String nome) {
-		List<Usuario> listaUsuarios = usuarioService.listarUsuarios(nome);
-		return !listaUsuarios.isEmpty() ? ResponseEntity.ok(listaUsuarios) : ResponseEntity.noContent().build();
+
+	@Autowired
+	private ComicService comicService;
+
+	@PostMapping
+	public ResponseEntity<Usuario> cadastrarUsuario(@Valid @RequestBody Usuario usuario,
+			UriComponentsBuilder uriBuilder) {
+		usuarioService.salvarUsuario(usuario);
+		return ResponseEntity.created(usuarioService.geraUri(usuario, uriBuilder)).body(usuario);
 	}
-	
-	@GetMapping("/myComics/{id}")
-	public ResponseEntity<?> listarComicsDoUsuario(@PathVariable Long id) {
-		List<Comic> listaComics = usuarioService.listarComics(id);
+
+	@PostMapping("/minhasComics/cadastrar/{usuarioId}/{comicId}")
+	public ResponseEntity<?> cadastrarComicParaUsuario(@PathVariable Long usuarioId, @PathVariable Long comicId,
+			UriComponentsBuilder uriBuilder) throws ComicNaoDisponivelException {
+
+		Comic comic = comicService.salvarComic(comicId);
+		Usuario usuario = usuarioService.buscarUsuario(usuarioId);
+		usuarioService.salvaComicParaUsuario(comic, usuario);
+
+		return ResponseEntity.created(comicService.geraUri(usuario, comic, uriBuilder)).body(usuario);
+	}
+
+	@GetMapping("/minhasComics/{usuarioId}")
+	public ResponseEntity<?> listarComicsDoUsuario(@PathVariable Long usuarioId) {
+		List<Comic> listaComics = usuarioService.listarComics(usuarioId);
 		return !listaComics.isEmpty() ? ResponseEntity.ok(listaComics) : ResponseEntity.noContent().build();
 	}
 
-	@PostMapping
-	public ResponseEntity<Usuario> cadastrarUsuario(@Valid @RequestBody Usuario usuario, UriComponentsBuilder uriBuilder) {
-
-		usuarioService.salvarUsuario(usuario);				
-		
-		return ResponseEntity.created(usuarioService.geraUri(usuario, uriBuilder)).body(usuario);
-	}
-	
-	@PostMapping("/myComics/{usuarioId}/{comicId}")
-	public ResponseEntity<?> cadastrarComicParaUsuario(@PathVariable Long usuarioId, @PathVariable Long comicId, UriComponentsBuilder uriBuilder) throws ComicNaoDisponivelException {
-
-		Comic comic = comicService.salvarComic(comicId);		
-		Usuario usuario = usuarioService.buscarUsuario(usuarioId);
-		
-		usuarioService.salvaComicParaUsuario(comic, usuario);
-		
-		return ResponseEntity.created(comicService.geraUri(usuario, comic, uriBuilder)).body(usuario);
-	}
-	
 }
-
-
-
-
-
